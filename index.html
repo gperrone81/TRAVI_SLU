@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRAVI SLU - Progettazione Costruzioni</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        'struct-blue': '#1e3a8a',
+                        'struct-light': '#eff6ff',
+                        'site-grey': '#f3f4f6',
+                        'alert-orange': '#f97316',
+                        'success-green': '#22c55e'
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- MathJax for rendering formulas -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { background-color: #f8fafc; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .card-hover:hover { transform: translateY(-3px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
+        .math-block { background: #f1f5f9; padding: 0.5rem; border-radius: 0.375rem; display: inline-block; }
+    </style>
+</head>
+<body class="text-slate-800 antialiased min-h-screen flex flex-col">
+
+    <!-- Header / Navbar -->
+    <header class="bg-struct-blue text-white shadow-md">
+        <div class="max-w-5xl mx-auto px-4 py-6 flex justify-between items-center">
+            <div>
+                <h1 class="text-2xl font-bold tracking-tight">TRAVI SLU</h1>
+                <p class="text-blue-200 text-sm">Classe 4A CAT - Cemento armato: flessione retta e taglio</p>
+            </div>
+            <div class="flex space-x-2">
+                <button onclick="switchTab('scopri')" id="btn-scopri" class="px-4 py-2 rounded-md bg-white text-struct-blue font-semibold transition-colors shadow">Scopri</button>
+                <button onclick="switchTab('sfida')" id="btn-sfida" class="px-4 py-2 rounded-md bg-blue-700 text-blue-100 hover:bg-blue-600 hover:text-white font-semibold transition-colors">Sfida</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-5xl mx-auto w-full px-4 py-8">
+
+        <!-- TAB: SCOPRI (Teoria) -->
+        <section id="scopri" class="tab-content active">
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold text-slate-800 border-b-2 border-struct-blue pb-2 inline-block">Sintesi Teorica</h2>
+                <p class="mt-2 text-slate-600">Ripassa i concetti chiave prima di affrontare la sfida.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- S1 -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 card-hover transition-all">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="bg-struct-blue text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">S1</span>
+                        <h3 class="text-lg font-bold">Unità di Misura e Resistenza</h3>
+                    </div>
+                    <p class="text-sm text-slate-600 mb-3">Conversione fondamentale: <span class="math-block">\(1 \text{ kN/cm}^2 = 10 \text{ MPa}\)</span></p>
+                    <ul class="text-sm space-y-2 text-slate-700">
+                        <li><strong>Calcestruzzo (es. C25/30):</strong><br> \(f_{cd} = \frac{0,85 f_{ck}}{1,5}\) &rarr; \(1,42 \text{ kN/cm}^2 = 14,2 \text{ MPa}\)</li>
+                        <li><strong>Acciaio (es. B450C):</strong><br> \(f_{yd} = \frac{f_{yk}}{1,15}\) &rarr; \(39,1 \text{ kN/cm}^2 = 391 \text{ MPa}\)</li>
+                    </ul>
+                </div>
+
+                <!-- S2 -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 card-hover transition-all">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="bg-struct-blue text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">S2</span>
+                        <h3 class="text-lg font-bold">Geometria e Asse Neutro</h3>
+                    </div>
+                    <p class="text-sm text-slate-600 mb-2">Altezza utile: \(d = h - c\) (dove \(c\) è il copriferro)</p>
+                    <p class="text-sm text-slate-600 mb-2">Posizione asse neutro a rottura (stress-block \(0,8x\)):</p>
+                    <div class="math-block mb-2 w-full text-center">\(x = \frac{(A_s - A'_s) f_{yd}}{0,8 \cdot b \cdot f_{cd}}\)</div>
+                    <p class="text-sm text-slate-600">Snervamento acciaio: \(\epsilon_s = 0,0035 \frac{d - x}{x} \ge 0,0019\)</p>
+                </div>
+
+                <!-- S3 -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 card-hover transition-all">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="bg-struct-blue text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">S3</span>
+                        <h3 class="text-lg font-bold">Flessione SLU</h3>
+                    </div>
+                    <p class="text-sm text-slate-600 mb-2"><strong>Momento resistente:</strong></p>
+                    <div class="math-block mb-3 text-center w-full">\(M_{Rd} = f_{yd} A_s (d - 0,4x)\)</div>
+                    <p class="text-sm text-slate-600 mb-2"><strong>Progetto armatura semplice:</strong></p>
+                    <ul class="text-sm space-y-1 text-slate-700">
+                        <li>\(d = r \sqrt{\frac{M_{Sd}}{b}}\) (con \(r=1,95\) per C25)</li>
+                        <li>\(A_s = \frac{M_{Sd}}{0,9 \cdot f_{yd} \cdot d}\)</li>
+                    </ul>
+                </div>
+
+                <!-- S4 -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 card-hover transition-all">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="bg-struct-blue text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">S4</span>
+                        <h3 class="text-lg font-bold">Limiti Normativa (NTC 2018)</h3>
+                    </div>
+                    <ul class="text-sm space-y-3 text-slate-700">
+                        <li><strong>Armatura minima:</strong> \(A_{s,min} = \max\left(0,26 \frac{f_{ctm}}{f_{yk}} b d; 0,0013 b d\right)\)</li>
+                        <li><strong>Armatura massima:</strong> \(A_{s,max} = 0,04 A_c\)</li>
+                        <li><strong>Passo max staffe:</strong> \(s_{max} = 0,8d\)</li>
+                        <li><strong>Staffe minime:</strong> 3 staffe/metro</li>
+                    </ul>
+                </div>
+
+                <!-- S5 -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 card-hover transition-all md:col-span-2">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="bg-struct-blue text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">S5</span>
+                        <h3 class="text-lg font-bold">Taglio e Traliccio di Ritter-Mörsch</h3>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <p class="text-sm text-slate-600 mb-2">Verifica con staffe: \(V_{Rd} = \min(V_{Rsd}, V_{Rcd})\)</p>
+                            <p class="text-sm font-semibold mt-3">Resistenza bielle (compressione):</p>
+                            <div class="math-block w-full text-center">\(V_{Rcd} = 0,225 \cdot d \cdot b_w \cdot \alpha_c \cdot f_{cd}\)</div>
+                        </div>
+                        <div>
+                            <p class="text-sm font-semibold mt-3 md:mt-0">Resistenza staffe (trazione):</p>
+                            <div class="math-block w-full text-center mb-2">\(V_{Rsd} = 0,9 \cdot d \cdot \frac{A_{sw}}{s} \cdot f_{yd}\)</div>
+                            <p class="text-sm text-slate-600">Calcolo passo teorico: \(s = \frac{0,9 \cdot d \cdot A_{sw} \cdot f_{yd}}{V_{Sd}}\)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB: SFIDA (Quiz) -->
+        <section id="sfida" class="tab-content">
+            <!-- Difficulty Selector Panel -->
+            <div id="difficulty-selector" class="max-w-2xl mx-auto bg-white p-8 rounded-xl shadow-md border border-slate-200 text-center">
+                <h2 class="text-2xl font-bold text-slate-800 mb-3">Seleziona il Livello di Difficoltà</h2>
+                <p class="text-slate-600 mb-8">Scegli il livello con cui metterti alla prova. Verranno estratte 10 domande casuali dal database di 100 domande per livello.</p>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <button onclick="startQuiz('facile')" class="p-5 border-2 border-green-500 rounded-xl hover:bg-green-50 transition-all flex flex-col items-center group">
+                        <span class="text-green-600 font-bold text-lg mb-1">Facile</span>
+                        <span class="text-xs text-slate-500 text-center mb-2">Concetti base e conversioni semplici</span>
+                        <span class="text-xs font-semibold bg-green-100 text-green-800 px-2 py-1 rounded">3 Suggerimenti</span>
+                    </button>
+                    <button onclick="startQuiz('medio')" class="p-5 border-2 border-orange-500 rounded-xl hover:bg-orange-50 transition-all flex flex-col items-center group">
+                        <span class="text-orange-600 font-bold text-lg mb-1">Medio</span>
+                        <span class="text-xs text-slate-500 text-center mb-2">Calcoli di flessione e taglio standard</span>
+                        <span class="text-xs font-semibold bg-orange-100 text-orange-800 px-2 py-1 rounded">2 Suggerimenti</span>
+                    </button>
+                    <button onclick="startQuiz('difficile')" class="p-5 border-2 border-red-500 rounded-xl hover:bg-red-50 transition-all flex flex-col items-center group">
+                        <span class="text-red-600 font-bold text-lg mb-1">Difficile</span>
+                        <span class="text-xs text-slate-500 text-center mb-2">Verifiche avanzate e doppia armatura</span>
+                        <span class="text-xs font-semibold bg-red-100 text-red-800 px-2 py-1 rounded">1 Suggerimento</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Quiz Container -->
+            <div id="quiz-container" class="hidden max-w-3xl mx-auto">
+                <div class="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-3">
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-800">Mettiti alla Prova</h2>
+                        <p class="text-slate-600">Rispondi alle 10 domande per completare la verifica.</p>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <!-- Hint Button -->
+                        <button id="hint-btn" onclick="useHint()" class="flex items-center gap-2 bg-amber-100 text-amber-800 hover:bg-amber-200 border border-amber-300 px-3 py-1.5 rounded-lg text-sm font-semibold transition-colors shadow-sm">
+                            <svg class="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+                            <span>Suggerimento (<span id="hints-count">3</span>)</span>
+                        </button>
+                        <span class="text-sm font-bold text-struct-blue bg-struct-light px-3 py-1 rounded-full whitespace-nowrap" id="progress-text">Domanda 1 / 10</span>
+                    </div>
+                </div>
+
+                <!-- Progress bar -->
+                <div class="w-full bg-gray-200 rounded-full h-2.5 mb-8">
+                    <div id="progress-bar" class="bg-struct-blue h-2.5 rounded-full transition-all duration-300" style="width: 10%"></div>
+                </div>
+
+                <!-- Question Card -->
+                <div class="bg-white p-8 rounded-xl shadow-lg border border-slate-100">
+                    <!-- Dynamic Question Image (SVG Vector Diagrams) -->
+                    <div id="question-image-container" class="mb-6 p-4 rounded-lg bg-slate-50 border border-slate-200 flex justify-center items-center overflow-x-auto min-h-[180px]">
+                        <!-- Rendered SVG SVG element will go here -->
+                    </div>
+
+                    <!-- Hint Display Box -->
+                    <div id="hint-box" class="hidden mb-6 p-4 rounded-lg bg-amber-50 border border-amber-200 text-amber-900 text-sm">
+                        <div class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <div>
+                                <span class="font-bold">Suggerimento:</span>
+                                <span id="hint-text"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="question-content">
+                        <!-- Dynamic question content goes here -->
+                    </div>
+
+                    <!-- Error message container -->
+                    <div id="error-message" class="hidden mt-4 text-red-600 text-sm font-semibold">
+                        Seleziona o inserisci una risposta per procedere.
+                    </div>
+
+                    <!-- Immediate Feedback container -->
+                    <div id="immediate-feedback" class="hidden mt-6"></div>
+
+                    <div class="mt-8 flex justify-end">
+                        <button id="action-btn" onclick="submitAnswer()" class="bg-alert-orange hover:bg-orange-600 text-white font-bold py-3 px-8 rounded-lg transition-colors shadow-md">
+                            Conferma e Prosegui
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Container -->
+            <div id="results-container" class="hidden max-w-4xl mx-auto">
+                <div class="text-center mb-8">
+                    <h2 class="text-4xl font-bold text-slate-800 mb-2">Resoconto Finale</h2>
+                    <p class="text-xl text-slate-600">Hai totalizzato <span id="final-score" class="font-bold text-struct-blue text-2xl"></span> su 10.</p>
+                </div>
+
+                <div id="feedback-list" class="space-y-4">
+                    <!-- Dynamic feedback goes here -->
+                </div>
+
+                <div class="mt-10 text-center">
+                    <button onclick="resetQuiz()" class="bg-struct-blue hover:bg-blue-800 text-white font-bold py-3 px-8 rounded-lg transition-colors shadow-md">
+                        Riprova la Sfida
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-800 text-slate-400 py-6 text-center mt-auto">
+        <p class="text-sm">Applicazione didattica sviluppata per la classe 4A CAT &bull; Unità Didattica 14</p>
+    </footer>
+
+    <script>
+        // --- SVG DIAGRAM GENERATOR FOR FUNCTIONAL VISUAL AID ---
+        function generateSvgDiagram(diagramType, data = {}) {
+            const b = data.b || 30;
+            const h = data.h || 50;
+            const d = data.d || 46;
+            const x = data.x || 15;
+            const c = data.c || 4;
+
+            if (diagramType === 'unit_conversion') {
+                return `
+                <svg viewBox="0 0 450 140" class="w-full max-w-md h-auto font-sans">
+                    <rect x="10" y="20" width="430" height="100" rx="8" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/>
+                    <text x="225" y="48" text-anchor="middle" font-weight="bold" fill="#1e3a8a" font-size="15">Conversione Unità di Misura SLU</text>
+                    <path d="M 120 70 L 330 70" stroke="#f97316" stroke-width="3" marker-end="url(#arrow)"/>
+                    <rect x="40" y="60" width="100" height="40" rx="6" fill="#eff6ff" stroke="#3b82f6"/>
+                    <text x="90" y="85" text-anchor="middle" font-weight="bold" fill="#1e3a8a" font-size="14">kN/cm²</text>
+                    <rect x="310" y="60" width="100" height="40" rx="6" fill="#f0fdf4" stroke="#22c55e"/>
+                    <text x="360" y="85" text-anchor="middle" font-weight="bold" fill="#15803d" font-size="14">MPa (N/mm²)</text>
+                    <text x="225" y="62" text-anchor="middle" fill="#64748b" font-size="13" font-weight="bold">× 10</text>
+                </svg>`;
+            }
+
+            if (diagramType === 'section_geometry') {
+                return `
+                <svg viewBox="0 0 350 220" class="w-full max-w-xs h-auto font-sans">
+                    <!-- Beam Section -->
+                    <rect x="80" y="20" width="120" height="180" fill="#e2e8f0" stroke="#334155" stroke-width="3"/>
+                    <!-- Rebars -->
+                    <circle cx="105" cy="175" r="7" fill="#1e3a8a"/>
+                    <circle cx="140" cy="175" r="7" fill="#1e3a8a"/>
+                    <circle cx="175" cy="175" r="7" fill="#1e3a8a"/>
+                    <!-- Stirrup outline -->
+                    <rect x="90" y="30" width="100" height="160" fill="none" stroke="#ef4444" stroke-width="2" stroke-dasharray="4"/>
+                    <!-- Dimension lines -->
+                    <line x1="80" y1="12" x2="200" y2="12" stroke="#475569" stroke-width="1.5"/>
+                    <text x="140" y="9" text-anchor="middle" font-size="12" font-weight="bold" fill="#475569">b = ${b} cm</text>
+                    
+                    <line x1="215" y1="20" x2="215" y2="200" stroke="#475569" stroke-width="1.5"/>
+                    <text x="235" y="115" text-anchor="start" font-size="12" font-weight="bold" fill="#475569">h = ${h} cm</text>
+                    
+                    <line x1="50" y1="20" x2="50" y2="175" stroke="#1e3a8a" stroke-width="1.5"/>
+                    <text x="40" y="100" text-anchor="end" font-size="12" font-weight="bold" fill="#1e3a8a">d = ${d} cm</text>
+                    
+                    <line x1="215" y1="175" x2="215" y2="200" stroke="#ef4444" stroke-width="1.5"/>
+                    <text x="235" y="190" text-anchor="start" font-size="11" fill="#ef4444">c = ${c} cm</text>
+                </svg>`;
+            }
+
+            if (diagramType === 'stress_block') {
+                return `
+                <svg viewBox="0 0 460 210" class="w-full max-w-md h-auto font-sans">
+                    <!-- Cross Section -->
+                    <rect x="20" y="20" width="90" height="170" fill="#e2e8f0" stroke="#334155" stroke-width="2.5"/>
+                    <circle cx="40" cy="165" r="6" fill="#1e3a8a"/>
+                    <circle cx="65" cy="165" r="6" fill="#1e3a8a"/>
+                    <circle cx="90" cy="165" r="6" fill="#1e3a8a"/>
+                    
+                    <!-- Neutral Axis Line -->
+                    <line x1="15" y1="75" x2="440" y2="75" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="4"/>
+                    <text x="375" y="70" font-size="11" font-weight="bold" fill="#ef4444">Asse Neutro (x)</text>
+
+                    <!-- Strain Diagram -->
+                    <line x1="190" y1="20" x2="190" y2="190" stroke="#94a3b8" stroke-width="1.5"/>
+                    <polygon points="190,20 230,20 190,75" fill="rgba(239, 68, 68, 0.2)" stroke="#ef4444" stroke-width="2"/>
+                    <polygon points="190,75 130,165 190,165" fill="rgba(30, 58, 138, 0.2)" stroke="#1e3a8a" stroke-width="2"/>
+                    <text x="235" y="30" font-size="11" font-weight="bold" fill="#ef4444">εcu = 0.35%</text>
+                    <text x="80" y="170" font-size="11" font-weight="bold" fill="#1e3a8a">εs</text>
+
+                    <!-- Stress Block -->
+                    <line x1="330" y1="20" x2="330" y2="190" stroke="#94a3b8" stroke-width="1.5"/>
+                    <rect x="330" y="20" width="70" height="44" fill="rgba(34, 197, 94, 0.3)" stroke="#22c55e" stroke-width="2"/>
+                    <text x="365" y="46" text-anchor="middle" font-size="12" font-weight="bold" fill="#15803d">fcd</text>
+                    <text x="410" y="46" font-size="11" fill="#15803d">0.8x</text>
+                    <!-- Tension Force Arrow -->
+                    <path d="M 330 165 L 390 165" stroke="#1e3a8a" stroke-width="2.5" marker-end="url(#blue-arrow)"/>
+                    <text x="400" y="170" font-size="12" font-weight="bold" fill="#1e3a8a">Fs = As·fyd</text>
+                </svg>`;
+            }
+
+            if (diagramType === 'ritter_morsch') {
+                return `
+                <svg viewBox="0 0 460 180" class="w-full max-w-md h-auto font-sans">
+                    <!-- Truss Contour -->
+                    <rect x="20" y="30" width="420" height="120" fill="#f8fafc" stroke="#475569" stroke-width="2"/>
+                    <!-- Compression chord -->
+                    <line x1="20" y1="30" x2="440" y2="30" stroke="#334155" stroke-width="4"/>
+                    <!-- Tension chord -->
+                    <line x1="20" y1="150" x2="440" y2="150" stroke="#1e3a8a" stroke-width="4"/>
+                    
+                    <!-- Vertical Stirrups (Tension) -->
+                    <line x1="100" y1="30" x2="100" y2="150" stroke="#ef4444" stroke-width="2.5"/>
+                    <line x1="180" y1="30" x2="180" y2="150" stroke="#ef4444" stroke-width="2.5"/>
+                    <line x1="260" y1="30" x2="260" y2="150" stroke="#ef4444" stroke-width="2.5"/>
+                    <line x1="340" y1="30" x2="340" y2="150" stroke="#ef4444" stroke-width="2.5"/>
+                    
+                    <!-- Concrete Diagonals (Compression Struts) -->
+                    <line x1="100" y1="150" x2="180" y2="30" stroke="#22c55e" stroke-width="3" stroke-dasharray="6,3"/>
+                    <line x1="180" y1="150" x2="260" y2="30" stroke="#22c55e" stroke-width="3" stroke-dasharray="6,3"/>
+                    <line x1="260" y1="150" x2="340" y2="30" stroke="#22c55e" stroke-width="3" stroke-dasharray="6,3"/>
+                    
+                    <!-- Labels -->
+                    <text x="145" y="80" font-size="11" font-weight="bold" fill="#15803d">Biella (Vrcd)</text>
+                    <text x="185" y="100" font-size="11" font-weight="bold" fill="#ef4444">Staffa (Vrsd)</text>
+                    <text x="215" y="166" font-size="11" font-weight="bold" fill="#475569">passo s</text>
+                    <line x1="180" y1="158" x2="260" y2="158" stroke="#475569" stroke-width="1"/>
+                </svg>`;
+            }
+
+            if (diagramType === 'normative_limits') {
+                return `
+                <svg viewBox="0 0 420 150" class="w-full max-w-md h-auto font-sans">
+                    <rect x="20" y="20" width="380" height="110" rx="8" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="2"/>
+                    <text x="210" y="45" text-anchor="middle" font-weight="bold" fill="#1e3a8a" font-size="14">Verifiche e Limiti NTC 2018</text>
+                    
+                    <rect x="40" y="60" width="150" height="50" rx="6" fill="#ffffff" stroke="#94a3b8"/>
+                    <text x="115" y="80" text-anchor="middle" font-size="11" font-weight="bold" fill="#475569">Armatura Minima</text>
+                    <text x="115" y="98" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e3a8a">As,min = 0.0013·b·d</text>
+
+                    <rect x="230" y="60" width="150" height="50" rx="6" fill="#ffffff" stroke="#94a3b8"/>
+                    <text x="305" y="80" text-anchor="middle" font-size="11" font-weight="bold" fill="#475569">Passo Max Staffe</text>
+                    <text x="305" y="98" text-anchor="middle" font-size="12" font-weight="bold" fill="#ef4444">s_max = 0.8 · d</text>
+                </svg>`;
+            }
+
+            return `<div class="p-4 text-center text-slate-500">Schema di Calcolo Strutturale SLU</div>`;
+        }
+
+        // --- DATABASE GENERATOR (100 DOMANDE PER OGNI LIVELLO = 300 TOTALE) ---
+        function generate100QuestionsPerLevel() {
+            const db = [];
+
+            // Concrete grades & steel grades
+            const concreteGrades = [
+                { name: 'C20/25', fck: 20, fcd: 1.13, r: 2.18 },
+                { name: 'C25/30', fck: 25, fcd: 1.42, r: 1.95 },
+                { name: 'C28/35', fck: 28, fcd: 1.59, r: 1.84 },
+                { name: 'C30/37', fck: 30, fcd: 1.70, r: 1.78 }
+            ];
+
+            // 1. GENERATE 100 EASY QUESTIONS
+            for (let i = 1; i <= 100; i++) {
+                const mod = i % 5;
+                if (mod === 1) {
+                    const fcdVal = (1.1 + (i * 0.03)).toFixed(2);
+                    const mpaVal = (fcdVal * 10).toFixed(1);
+                    db.push({
+                        id: `F_${i}`,
+                        difficulty: 'facile',
+                        type: 'multiple',
+                        text: `Converti la tensione di calcolo del calcestruzzo \\(f_{cd} = ${fcdVal} \\text{ kN/cm}^2\\) in \\(\\text{N/mm}^2\\) (MPa).`,
+                        options: [`${fcdVal} MPa`, `${mpaVal} MPa`, `${(fcdVal*100).toFixed(0)} MPa`, `${(fcdVal/10).toFixed(2)} MPa`],
+                        correct: `${mpaVal} MPa`,
+                        hint: `Ricorda che \\(1 \\text{ kN/cm}^2\\) corrisponde esattamente a \\(10 \\text{ N/mm}^2\\) (ossia 10 MPa). Moltiplica il valore per 10.`,
+                        explanation: `\\(1 \\text{ kN/cm}^2 = 10 \\text{ N/mm}^2 = 10 \\text{ MPa}\\). Quindi \\(${fcdVal} \\times 10 = ${mpaVal} \\text{ MPa}\\).`,
+                        ref: 'S1',
+                        diagramType: 'unit_conversion'
+                    });
+                } else if (mod === 2) {
+                    const h = 40 + (i % 6) * 5;
+                    const c = 3 + (i % 3);
+                    const d = h - c;
+                    db.push({
+                        id: `F_${i}`,
+                        difficulty: 'facile',
+                        type: 'number',
+                        text: `Una trave rettangolare in c.a. ha altezza totale \\(h = ${h} \\text{ cm}\\) e copriferro di calcolo \\(c = ${c} \\text{ cm}\\). Calcola l'altezza utile \\(d\\) in cm.`,
+                        correct: d,
+                        tolerance: 0,
+                        hint: `L'altezza utile \\(d\\) è la distanza tra il bordo compresso e il baricentro dell'armatura tesa: \\(d = h - c\\).`,
+                        explanation: `\\(d = h - c = ${h} - ${c} = ${d} \\text{ cm}\\).`,
+                        ref: 'S2',
+                        diagramType: 'section_geometry',
+                        data: { h, c, d, b: 30 }
+                    });
+                } else if (mod === 3) {
+                    const b = 25 + (i % 4) * 5;
+                    const d = 40 + (i % 5) * 2;
+                    const asMin = (0.0013 * b * d).toFixed(2);
+                    db.push({
+                        id: `F_${i}`,
+                        difficulty: 'facile',
+                        type: 'multiple',
+                        text: `Calcola l'armatura minima longitudinale geometrica \\(A_{s,min} = 0,0013 \\cdot b \\cdot d\\) per una trave con \\(b = ${b} \\text{ cm}\\) e \\(d = ${d} \\text{ cm}\\).`,
+                        options: [`${asMin} cm²`, `${(asMin*1.5).toFixed(2)} cm²`, `${(asMin*0.7).toFixed(2)} cm²`, `${(asMin*2).toFixed(2)} cm²`],
+                        correct: `${asMin} cm²`,
+                        hint: `Applica direttamente la formula dell'armatura minima geometrica NTC 2018: moltiplica 0.0013 per la base e per l'altezza utile.`,
+                        explanation: `\\(A_{s,min} = 0,0013 \\cdot ${b} \\cdot ${d} = ${asMin} \\text{ cm}^2\\).`,
+                        ref: 'S4',
+                        diagramType: 'normative_limits'
+                    });
+                } else if (mod === 4) {
+                    db.push({
+                        id: `F_${i}`,
+                        difficulty: 'facile',
+                        type: 'multiple',
+                        text: `Qual è la funzione principale delle staffe (armatura trasversale) in una trave in cemento armato?`,
+                        options: ['Assorbire lo sforzo di taglio e contrastare la fessurazione diagonale', 'Aumentare unicamente il peso proprio della trave', 'Sostituire l\'armatura longitudinale a flessione', 'Proteggere il calcestruzzo dai raggi UV'],
+                        correct: 'Assorbire lo sforzo di taglio e contrastare la fessurazione diagonale',
+                        hint: `Le staffe lavorano come tiranti verticali nel modello a traliccio di Ritter-Mörsch.`,
+                        explanation: `Le staffe assorbono le tensioni principali di trazione diagonale provocate dall'azione del taglio.`,
+                        ref: 'S5',
+                        diagramType: 'ritter_morsch'
+                    });
+                } else {
+                    const d = 35 + (i % 8) * 2;
+                    const sMax = (0.8 * d).toFixed(1);
+                    db.push({
+                        id: `F_${i}`,
+                        difficulty: 'facile',
+                        type: 'number',
+                        text: `Secondo le NTC 2018, il passo massimo delle staffe è \\(s_{max} = 0,8 \\cdot d\\). Se \\(d = ${d} \\text{ cm}\\), calcola \\(s_{max}\\) in cm.`,
+                        correct: parseFloat(sMax),
+                        tolerance: 0.1,
+                        hint: `Moltiplica l'altezza utile \\(d = ${d}\\) per il coefficiente 0,8.`,
+                        explanation: `\\(s_{max} = 0,8 \\cdot ${d} = ${sMax} \\text{ cm}\\).`,
+                        ref: 'S4',
+                        diagramType: 'normative_limits'
+                    });
+                }
+            }
+
+            // 2. GENERATE 100 MEDIUM QUESTIONS
+            for (let i = 1; i <= 100; i++) {
+                const mod = i % 5;
+                if (mod === 1) {
+                    const b = 30;
+                    const d = 40 + (i % 6) * 2;
+                    const As = (8.0 + (i % 8) * 1.2).toFixed(2);
+                    const fyd = 39.1;
+                    const fcd = 1.42;
+                    const x = ((As * fyd) / (0.8 * b * fcd)).toFixed(1);
+                    db.push({
+                        id: `M_${i}`,
+                        difficulty: 'medio',
+                        type: 'multiple',
+                        text: `Trave con \\(b = 30 \\text{ cm}\\), \\(d = ${d} \\text{ cm}\\), \\(A_s = ${As} \\text{ cm}^2\\), calcestruzzo C25/30 (\\(f_{cd} = 1,42 \\text{ kN/cm}^2\\)) e acciaio B450C (\\(f_{yd} = 39,1 \\text{ kN/cm}^2\\)). Calcola la profondità dell'asse neutro \\(x\\).`,
+                        options: [`${x} cm`, `${(x*1.3).toFixed(1)} cm`, `${(x*0.75).toFixed(1)} cm`, `${(parseFloat(x)+4).toFixed(1)} cm`],
+                        correct: `${x} cm`,
+                        hint: `Usa la formula dell'equilibrio alla traslazione: \\(x = \\frac{A_s \\cdot f_{yd}}{0,8 \\cdot b \\cdot f_{cd}}\\).`,
+                        explanation: `\\(x = \\frac{${As} \\cdot 39,1}{0,8 \\cdot 30 \\cdot 1,42} = ${x} \\text{ cm}\\).`,
+                        ref: 'S2',
+                        diagramType: 'stress_block',
+                        data: { b: 30, d, x: parseFloat(x) }
+                    });
+                } else if (mod === 2) {
+                    const d = 45;
+                    const x = (10 + (i % 8) * 1.1).toFixed(1);
+                    const eps = (0.0035 * (d - x) / x).toFixed(4);
+                    db.push({
+                        id: `M_${i}`,
+                        difficulty: 'medio',
+                        type: 'number',
+                        text: `Data una trave inflessa con \\(d = ${d} \\text{ cm}\\) e \\(x = ${x} \\text{ cm}\\), calcola la deformazione dell'acciaio teso \\(\\epsilon_s = 0,0035 \\cdot \\frac{d - x}{x}\\). (Es: 0.0082)`,
+                        correct: parseFloat(eps),
+                        tolerance: 0.0003,
+                        hint: `Sostituisci i valori nella relazione lineare delle deformazioni a rottura del calcestruzzo (0.0035).`,
+                        explanation: `\\(\\epsilon_s = 0,0035 \\cdot \\frac{${d} - ${x}}{${x}} = ${eps}\\).`,
+                        ref: 'S2',
+                        diagramType: 'stress_block'
+                    });
+                } else if (mod === 3) {
+                    const b = 30;
+                    const d = 45 + (i % 4) * 2.5;
+                    const fcd = 1.42;
+                    const Vrcd = (0.225 * d * b * 1.0 * fcd).toFixed(0);
+                    db.push({
+                        id: `M_${i}`,
+                        difficulty: 'medio',
+                        type: 'multiple',
+                        text: `Calcola la resistenza a taglio-compressione delle bielle di calcestruzzo \\(V_{Rcd} = 0,225 \\cdot d \\cdot b_w \\cdot \\alpha_c \\cdot f_{cd}\\) per una trave con \\(b_w = ${b} \\text{ cm}\\), \\(d = ${d} \\text{ cm}\\), C25/30 (\\(f_{cd} = 1,42 \\text{ kN/cm}^2\\)) e \\(\\alpha_c = 1\\).`,
+                        options: [`${Vrcd} kN`, `${(Vrcd*1.25).toFixed(0)} kN`, `${(Vrcd*0.8).toFixed(0)} kN`, `${(Vrcd*1.5).toFixed(0)} kN`],
+                        correct: `${Vrcd} kN`,
+                        hint: `Moltiplica 0.225 × d × bw × fcd. Attento che il risultato in kN si ottiene lavorando in cm e kN/cm².`,
+                        explanation: `\\(V_{Rcd} = 0,225 \\cdot ${d} \\cdot ${b} \\cdot 1 \\cdot 1,42 = ${Vrcd} \\text{ kN}\\).`,
+                        ref: 'S5',
+                        diagramType: 'ritter_morsch'
+                    });
+                } else if (mod === 4) {
+                    const d = 44 + (i % 5) * 2;
+                    const Asw = 1.01; // 2 phi 8
+                    const fyd = 39.1;
+                    const VSd = 90 + (i % 7) * 10;
+                    const s = ((0.9 * d * Asw * fyd) / VSd).toFixed(1);
+                    db.push({
+                        id: `M_${i}`,
+                        difficulty: 'medio',
+                        type: 'number',
+                        text: `Calcola il passo teorico delle staffe \\(s = \\frac{0,9 \\cdot d \\cdot A_{sw} \\cdot f_{yd}}{V_{Sd}}\\) in cm, con \\(d = ${d} \\text{ cm}\\), staffe \\(\\phi 8\\) a 2 bracci (\\(A_{sw} = 1,01 \\text{ cm}^2\\)), \\(f_{yd} = 39,1 \\text{ kN/cm}^2\\) e taglio sollecitante \\(V_{Sd} = ${VSd} \\text{ kN}\\).`,
+                        correct: parseFloat(s),
+                        tolerance: 0.3,
+                        hint: `Usa la formula di resistenza delle staffe tese al taglio invertita per trovare il passo s.`,
+                        explanation: `\\(s = \\frac{0,9 \\cdot ${d} \\cdot 1,01 \\cdot 39,1}{${VSd}} = ${s} \\text{ cm}\\).`,
+                        ref: 'S5',
+                        diagramType: 'ritter_morsch'
+                    });
+                } else {
+                    const Msd = 120 + (i % 6) * 20;
+                    const b = 30;
+                    const r = 1.95; // C25
+                    const dReq = (r * Math.sqrt((Msd * 100) / b)).toFixed(1);
+                    db.push({
+                        id: `M_${i}`,
+                        difficulty: 'medio',
+                        type: 'multiple',
+                        text: `In fase di progetto preliminare per calcestruzzo C25/30 (\\(r = 1,95\\)), calcola l'altezza utile minima \\(d = r \\cdot \\sqrt{\\frac{M_{Sd}}{b}}\\) per una trave di larghezza \\(b = 30 \\text{ cm}\\) soggetta a un momento \\(M_{Sd} = ${Msd} \\text{ kNm}\\) (${Msd*100} kNcm).`,
+                        options: [`${dReq} cm`, `${(parseFloat(dReq)+5).toFixed(1)} cm`, `${(parseFloat(dReq)-6).toFixed(1)} cm`, `${(parseFloat(dReq)*1.2).toFixed(1)} cm`],
+                        correct: `${dReq} cm`,
+                        hint: `Inserisci il momento espresso in kNcm (${Msd * 100}) sotto radice, dividi per b=30 e moltiplica per r=1.95.`,
+                        explanation: `\\(d = 1,95 \\cdot \\sqrt{\\frac{${Msd*100}}{30}} = ${dReq} \\text{ cm}\\).`,
+                        ref: 'S3',
+                        diagramType: 'section_geometry',
+                        data: { b: 30, h: parseFloat(dReq)+4, d: parseFloat(dReq), c: 4 }
+                    });
+                }
+            }
+
+            // 3. GENERATE 100 HARD QUESTIONS
+            for (let i = 1; i <= 100; i++) {
+                const mod = i % 5;
+                if (mod === 1) {
+                    const b = 30;
+                    const fcd = 1.42;
+                    const fyd = 39.1;
+                    const As = 14.7;
+                    const As1 = (2.0 + (i % 5) * 0.5).toFixed(2);
+                    const xDouble = (((As - As1) * fyd) / (0.8 * b * fcd)).toFixed(1);
+                    db.push({
+                        id: `D_${i}`,
+                        difficulty: 'difficile',
+                        type: 'number',
+                        text: `Trave a doppia armatura: \\(b = 30 \\text{ cm}\\), \\(A_s = ${As} \\text{ cm}^2\\), \\(A'_s = ${As1} \\text{ cm}^2\\), \\(f_{cd} = 1,42 \\text{ kN/cm}^2\\), \\(f_{yd} = 39,1 \\text{ kN/cm}^2\\). Ipotizzando l'armatura compressa snervata, calcola \\(x = \\frac{(A_s - A'_s)f_{yd}}{0,8 \\cdot b \\cdot f_{cd}}\\) in cm.`,
+                        correct: parseFloat(xDouble),
+                        tolerance: 0.2,
+                        hint: `L'armatura compressa sottrae forza al calcestruzzo compresso. La differenza (As - A's) determina l'altezza dell'asse neutro x.`,
+                        explanation: `\\(x = \\frac{(${As} - ${As1}) \\cdot 39,1}{0,8 \\cdot 30 \\cdot 1,42} = ${xDouble} \\text{ cm}\\).`,
+                        ref: 'S2',
+                        diagramType: 'stress_block'
+                    });
+                } else if (mod === 2) {
+                    const Msd = 160 + (i % 5) * 20;
+                    const d = 46;
+                    const fyd = 39.1;
+                    const AsReq = ((Msd * 100) / (0.9 * d * fyd)).toFixed(2);
+                    db.push({
+                        id: `D_${i}`,
+                        difficulty: 'difficile',
+                        type: 'number',
+                        text: `Calcola l'area di armatura tesa \\(A_s\\) necessaria per un momento applicato \\(M_{Sd} = ${Msd} \\text{ kNm}\\) (${Msd*100} kNcm) con la formula semplificata \\(A_s = \\frac{M_{Sd}}{0,9 \\cdot d \\cdot f_{yd}}\\), dati \\(d = ${d} \\text{ cm}\\) e \\(f_{yd} = 39,1 \\text{ kN/cm}^2\\). Risultato in cm².`,
+                        correct: parseFloat(AsReq),
+                        tolerance: 0.2,
+                        hint: `Dividi il momento sollecitante in kNcm per il prodotto del braccio della coppia interna (0.9·d) e della tensione fyd.`,
+                        explanation: `\\(A_s = \\frac{${Msd*100}}{0,9 \\cdot ${d} \\cdot 39,1} = ${AsReq} \\text{ cm}^2\\).`,
+                        ref: 'S3',
+                        diagramType: 'section_geometry'
+                    });
+                } else if (mod === 3) {
+                    const d = 50;
+                    const Asw = 1.57; // 2 phi 10
+                    const s = 15 + (i % 4) * 2;
+                    const fyd = 39.1;
+                    const Vrsd = (0.9 * d * (Asw / s) * fyd).toFixed(1);
+                    db.push({
+                        id: `D_${i}`,
+                        difficulty: 'difficile',
+                        type: 'multiple',
+                        text: `Calcola il taglio resistente lato acciaio \\(V_{Rsd} = 0,9 \\cdot d \\cdot \\frac{A_{sw}}{s} \\cdot f_{yd}\\) per una trave con \\(d = ${d} \\text{ cm}\\), staffe \\(\\phi 10\\) a 2 bracci (\\(A_{sw} = 1,57 \\text{ cm}^2\\)) al passo \\(s = ${s} \\text{ cm}\\) e \\(f_{yd} = 39,1 \\text{ kN/cm}^2\\).`,
+                        options: [`${Vrsd} kN`, `${(Vrsd*1.2).toFixed(1)} kN`, `${(Vrsd*0.85).toFixed(1)} kN`, `${(parseFloat(Vrsd)+25).toFixed(1)} kN`],
+                        correct: `${Vrsd} kN`,
+                        hint: `Calcola la resistenza a trazione delle staffe intercettate dalla fessura a 45 gradi: 0.9 × d × (Asw/s) × fyd.`,
+                        explanation: `\\(V_{Rsd} = 0,9 \\cdot ${d} \\cdot \\frac{1,57}{${s}} \\cdot 39,1 = ${Vrsd} \\text{ kN}\\).`,
+                        ref: 'S5',
+                        diagramType: 'ritter_morsch'
+                    });
+                } else if (mod === 4) {
+                    db.push({
+                        id: `D_${i}`,
+                        difficulty: 'difficile',
+                        type: 'multiple',
+                        text: `Cosa accade se in una sezione si aumenta eccesivamente l'armatura tesa \\(A_s\\) senza aumentare l'altezza utile o inserire armatura compressa?`,
+                        options: [
+                            'L\'asse neutro si abbassa troppo, provocando la rottura fragile per schiacciamento del calcestruzzo prima dello snervamento dell\'acciaio (Campo 4)',
+                            'La sezione diventa infinitamente duttile ed esente da rottura',
+                            'Aumenta unicamente la resistenza a taglio senza influenzare la flessione',
+                            'L\'asse neutro sale verso l\'alto annullando le tensioni nel calcestruzzo'
+                        ],
+                        correct: 'L\'asse neutro si abbassa troppo, provocando la rottura fragile per schiacciamento del calcestruzzo prima dello snervamento dell\'acciaio (Campo 4)',
+                        hint: `Una percentuale eccessiva di armatura tesa impedisce all'acciaio di snervarsi prima del collasso del calcestruzzo compresso.`,
+                        explanation: `Se la sezione è sovra-armata, si perde la duttilità ed il collasso avviene in modo fragile lato calcestruzzo.`,
+                        ref: 'S2',
+                        diagramType: 'stress_block'
+                    });
+                } else {
+                    const sCalc = 38 + (i % 4) * 2;
+                    const d = 42;
+                    const sMax = (0.8 * d).toFixed(1);
+                    db.push({
+                        id: `D_${i}`,
+                        difficulty: 'difficile',
+                        type: 'number',
+                        text: `Se dal calcolo a taglio risulta un passo delle staffe \\(s = ${sCalc} \\text{ cm}\\), ma l'altezza utile è \\(d = ${d} \\text{ cm}\\), quale valore massimo di passo \\(s\\) (in cm) si deve disporre in cantiere per rispettare le NTC 2018?`,
+                        correct: parseFloat(sMax),
+                        tolerance: 0.1,
+                        hint: `Anche se il calcolo teorico permette un passo ampio, la normativa impone comunque di non superare s_max = 0.8 · d.`,
+                        explanation: `Il passo reale deve soddisfare le limitazioni prescrittive: \\(s_{real} \\le s_{max} = 0,8 \\cdot ${d} = ${sMax} \\text{ cm}\\).`,
+                        ref: 'S4',
+                        diagramType: 'normative_limits'
+                    });
+                }
+            }
+
+            return db;
+        }
+
+        // Generate database of 300 questions (100 per level)
+        const questionDatabase = generate100QuestionsPerLevel();
+
+        // --- APP STATE ---
+        let currentQuestions = [];
+        let currentQuestionIndex = 0;
+        let userAnswers = [];
+        let currentDifficulty = 'facile';
+        let hintsRemaining = 3;
+
+        // Map max hints per level
+        const maxHintsPerLevel = {
+            'facile': 3,
+            'medio': 2,
+            'difficile': 1
+        };
+
+        // --- CORE LOGIC ---
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            
+            const targetTab = document.getElementById(tabId);
+            if (targetTab) {
+                targetTab.classList.add('active');
+            }
+            
+            const btnScopri = document.getElementById('btn-scopri');
+            const btnSfida = document.getElementById('btn-sfida');
+
+            if(tabId === 'scopri') {
+                if (btnScopri) btnScopri.className = "px-4 py-2 rounded-md bg-white text-struct-blue font-semibold transition-colors shadow";
+                if (btnSfida) btnSfida.className = "px-4 py-2 rounded-md bg-blue-700 text-blue-100 hover:bg-blue-600 hover:text-white font-semibold transition-colors";
+            } else {
+                if (btnSfida) btnSfida.className = "px-4 py-2 rounded-md bg-white text-struct-blue font-semibold transition-colors shadow";
+                if (btnScopri) btnScopri.className = "px-4 py-2 rounded-md bg-blue-700 text-blue-100 hover:bg-blue-600 hover:text-white font-semibold transition-colors";
+                
+                // Show difficulty selector if no quiz is currently running
+                if(currentQuestions.length === 0) {
+                    const diffSelector = document.getElementById('difficulty-selector');
+                    const quizContainer = document.getElementById('quiz-container');
+                    const resContainer = document.getElementById('results-container');
+
+                    if (diffSelector) diffSelector.classList.remove('hidden');
+                    if (quizContainer) quizContainer.classList.add('hidden');
+                    if (resContainer) resContainer.classList.add('hidden');
+                }
+            }
+        }
+
+        function shuffleArray(array) {
+            let shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
+        function startQuiz(difficultyLevel) {
+            currentDifficulty = difficultyLevel;
+            hintsRemaining = maxHintsPerLevel[difficultyLevel] || 1;
+
+            // Extract 10 random questions from the 100 questions of the selected level
+            const filteredQuestions = questionDatabase.filter(q => q.difficulty === difficultyLevel);
+            currentQuestions = shuffleArray(filteredQuestions).slice(0, 10);
+            
+            currentQuestionIndex = 0;
+            userAnswers = [];
+            
+            const diffSelector = document.getElementById('difficulty-selector');
+            const quizContainer = document.getElementById('quiz-container');
+            const resContainer = document.getElementById('results-container');
+
+            if (diffSelector) diffSelector.classList.add('hidden');
+            if (quizContainer) quizContainer.classList.remove('hidden');
+            if (resContainer) resContainer.classList.add('hidden');
+            
+            renderQuestion();
+        }
+
+        function useHint() {
+            if (hintsRemaining <= 0) return;
+
+            const q = currentQuestions[currentQuestionIndex];
+            const hintBox = document.getElementById('hint-box');
+            const hintText = document.getElementById('hint-text');
+
+            if (hintBox && hintText && q.hint) {
+                hintText.innerHTML = q.hint;
+                hintBox.classList.remove('hidden');
+                hintsRemaining--;
+                updateHintButtonUI();
+
+                if (window.MathJax) {
+                    MathJax.typesetPromise([hintBox]).catch(err => console.error(err));
+                }
+            }
+        }
+
+        function updateHintButtonUI() {
+            const hintBtn = document.getElementById('hint-btn');
+            const hintCount = document.getElementById('hints-count');
+            
+            if (hintCount) hintCount.innerText = hintsRemaining;
+            
+            if (hintBtn) {
+                if (hintsRemaining <= 0) {
+                    hintBtn.disabled = true;
+                    hintBtn.className = "flex items-center gap-2 bg-slate-100 text-slate-400 border border-slate-200 px-3 py-1.5 rounded-lg text-sm font-semibold opacity-60 cursor-not-allowed";
+                } else {
+                    hintBtn.disabled = false;
+                    hintBtn.className = "flex items-center gap-2 bg-amber-100 text-amber-800 hover:bg-amber-200 border border-amber-300 px-3 py-1.5 rounded-lg text-sm font-semibold transition-colors shadow-sm cursor-pointer";
+                }
+            }
+        }
+
+        function renderQuestion() {
+            const q = currentQuestions[currentQuestionIndex];
+            const container = document.getElementById('question-content');
+            
+            document.getElementById('progress-text').innerText = `Domanda ${currentQuestionIndex + 1} / ${currentQuestions.length}`;
+            document.getElementById('progress-bar').style.width = `${((currentQuestionIndex + 1) / currentQuestions.length) * 100}%`;
+            
+            document.getElementById('error-message').classList.add('hidden');
+            document.getElementById('immediate-feedback').classList.add('hidden');
+            document.getElementById('hint-box').classList.add('hidden');
+            
+            updateHintButtonUI();
+
+            // Render functional SVG vector image for the question
+            const imgContainer = document.getElementById('question-image-container');
+            if (imgContainer) {
+                imgContainer.innerHTML = generateSvgDiagram(q.diagramType, q.data || {});
+            }
+
+            let html = `
+                <div class="mb-4 flex items-center gap-2">
+                    <span class="inline-block bg-slate-200 text-slate-700 text-xs font-bold px-2 py-1 rounded uppercase tracking-wide">ID: ${q.id}</span>
+                    <span class="inline-block bg-blue-100 text-blue-800 text-xs font-bold px-2 py-1 rounded uppercase tracking-wide">Scheda ${q.ref}</span>
+                </div>
+                <h3 class="text-xl text-slate-800 mb-6 leading-relaxed font-semibold">${q.text}</h3>
+            `;
+
+            if (q.type === 'multiple') {
+                html += `<div class="space-y-3">`;
+                q.options.forEach((opt) => {
+                    html += `
+                        <label class="flex items-center p-4 border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-50 transition-colors radio-label">
+                            <input type="radio" name="answer" value="${opt}" class="w-5 h-5 text-struct-blue focus:ring-struct-blue border-gray-300">
+                            <span class="ml-3 text-slate-700 font-medium">${opt}</span>
+                        </label>
+                    `;
+                });
+                html += `</div>`;
+            } else if (q.type === 'number') {
+                html += `
+                    <div>
+                        <label for="num-answer" class="block text-sm font-medium text-slate-700 mb-2">Inserisci il valore numerico:</label>
+                        <input type="number" step="any" id="num-answer" class="w-full sm:w-1/2 p-3 border border-slate-300 rounded-lg shadow-sm focus:ring-struct-blue focus:border-struct-blue" placeholder="Es. 15.5">
+                    </div>
+                `;
+            }
+
+            container.innerHTML = html;
+            
+            // Reset Button State
+            const btn = document.getElementById('action-btn');
+            btn.innerText = 'Conferma';
+            btn.className = 'bg-alert-orange hover:bg-orange-600 text-white font-bold py-3 px-8 rounded-lg transition-colors shadow-md';
+            btn.onclick = submitAnswer;
+            
+            // Re-render math formulas
+            if (window.MathJax) {
+                MathJax.typesetPromise([container, imgContainer]).catch(function (err) {
+                    console.error(err.message);
+                });
+            }
+        }
+
+        function submitAnswer() {
+            const q = currentQuestions[currentQuestionIndex];
+            let answer = null;
+            let isCorrect = false;
+
+            if (q.type === 'multiple') {
+                const selected = document.querySelector('input[name="answer"]:checked');
+                if (selected) answer = selected.value;
+            } else if (q.type === 'number') {
+                const val = document.getElementById('num-answer').value;
+                if (val !== "") answer = parseFloat(val);
+            }
+
+            if (answer === null) {
+                document.getElementById('error-message').classList.remove('hidden');
+                return;
+            }
+            document.getElementById('error-message').classList.add('hidden');
+
+            if (q.type === 'multiple') {
+                isCorrect = (answer === q.correct);
+            } else if (q.type === 'number') {
+                const diff = Math.abs(answer - q.correct);
+                isCorrect = diff <= (q.tolerance || 0.05);
+            }
+
+            userAnswers.push({
+                questionId: q.id,
+                questionText: q.text,
+                userAnswer: answer,
+                correctAnswer: q.correct,
+                isCorrect: isCorrect,
+                explanation: q.explanation,
+                ref: q.ref
+            });
+
+            if (q.type === 'multiple') {
+                document.querySelectorAll('input[name="answer"]').forEach(el => el.disabled = true);
+            } else {
+                const numInp = document.getElementById('num-answer');
+                if (numInp) numInp.disabled = true;
+            }
+
+            const feedbackDiv = document.getElementById('immediate-feedback');
+            feedbackDiv.classList.remove('hidden');
+            
+            if (isCorrect) {
+                feedbackDiv.className = 'mt-6 p-5 rounded-lg bg-green-50 border border-green-200 block';
+                feedbackDiv.innerHTML = `
+                    <div class="flex items-start gap-3">
+                        <svg class="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <div>
+                            <p class="font-bold text-green-800 mb-1">Risposta Corretta!</p>
+                            <p class="text-sm text-green-900">${q.explanation}</p>
+                        </div>
+                    </div>`;
+            } else {
+                feedbackDiv.className = 'mt-6 p-5 rounded-lg bg-red-50 border border-red-200 block';
+                feedbackDiv.innerHTML = `
+                    <div class="flex items-start gap-3">
+                        <svg class="w-6 h-6 text-red-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <div class="w-full">
+                            <p class="font-bold text-red-800 mb-1">Risposta Errata.</p>
+                            <p class="text-sm text-red-900 mb-2">La risposta esatta era: <span class="font-bold">${q.correct}</span></p>
+                            <div class="bg-white p-3 rounded text-sm text-slate-700 border border-red-100 shadow-sm">
+                                <strong>Spiegazione:</strong> ${q.explanation}
+                            </div>
+                        </div>
+                    </div>`;
+            }
+
+            if (window.MathJax) {
+                MathJax.typesetPromise([feedbackDiv]).catch(function (err) { console.error(err.message); });
+            }
+
+            const btn = document.getElementById('action-btn');
+            btn.innerText = 'Avanti \u2192';
+            btn.className = 'bg-struct-blue hover:bg-blue-800 text-white font-bold py-3 px-8 rounded-lg transition-colors shadow-md';
+            btn.onclick = nextQuestion;
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < currentQuestions.length) {
+                renderQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            document.getElementById('quiz-container').classList.add('hidden');
+            const resContainer = document.getElementById('results-container');
+            resContainer.classList.remove('hidden');
+
+            const score = userAnswers.filter(a => a.isCorrect).length;
+            document.getElementById('final-score').innerText = score;
+
+            const list = document.getElementById('feedback-list');
+            list.innerHTML = '';
+
+            userAnswers.forEach((ans, idx) => {
+                const isErr = !ans.isCorrect;
+                const bgColor = isErr ? 'bg-red-50 border-red-200' : 'bg-green-50 border-green-200';
+                const iconColor = isErr ? 'text-red-500' : 'text-green-500';
+                const icon = isErr ? 
+                    `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>` : 
+                    `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
+
+                let html = `
+                    <div class="p-5 border rounded-lg ${bgColor} flex flex-col md:flex-row gap-4">
+                        <div class="flex-shrink-0 mt-1 ${iconColor}">
+                            ${icon}
+                        </div>
+                        <div class="flex-grow">
+                            <p class="font-semibold text-slate-800 mb-2">${idx + 1}. ${ans.questionText}</p>
+                            <div class="text-sm space-y-1 mb-3">
+                                <p><span class="text-slate-500">Tua risposta:</span> <span class="font-medium ${isErr ? 'text-red-700' : 'text-green-700'}">${ans.userAnswer}</span></p>
+                            </div>
+                            <div class="bg-white p-3 rounded border border-slate-100 text-sm text-slate-700 shadow-sm">
+                                <strong>Riepilogo:</strong> ${ans.explanation}
+                                ${isErr ? `<div class="mt-2 text-struct-blue font-semibold hover:underline cursor-pointer" onclick="switchTab('scopri')">&rarr; Vai a ripassare la Scheda ${ans.ref}</div>` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                list.innerHTML += html;
+            });
+
+            if (window.MathJax) {
+                MathJax.typesetPromise([list]).catch(function (err) {
+                    console.error(err.message);
+                });
+            }
+        }
+
+        function resetQuiz() {
+            currentQuestions = [];
+            currentQuestionIndex = 0;
+            userAnswers = [];
+            document.getElementById('results-container').classList.add('hidden');
+            document.getElementById('quiz-container').classList.add('hidden');
+            document.getElementById('difficulty-selector').classList.remove('hidden');
+        }
+
+    </script>
+</body>
+</html>
